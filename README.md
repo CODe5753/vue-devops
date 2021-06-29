@@ -1,12 +1,12 @@
 # Yarn 설치와 Vue.js 생성
 
-### Yarn 이란?
+#### Yarn 이란?
 
 npm과 마찬가지로 패키지 매니저입니다. 다만, 빌드 성능이 떨어지는 npm에 비해 성능이 우수합니다.
 
   
 
-### Yarn 설치
+#### Yarn 설치
 
 npm이 이미 설치되어 있다면 아래와 같이 yarn을 설치해 줍니다.
 
@@ -16,7 +16,7 @@ npm install --global yarn
 
   
 
-### Vue 프로젝트 생성
+#### Vue 프로젝트 생성
 
 ```shell
 vue create vue-devops
@@ -44,7 +44,7 @@ Vue version은 [3.x] 선택후 엔터
 
 
 
-### 프로젝트 디렉터리로 이동후 실행
+#### 프로젝트 디렉터리로 이동후 실행
 
 ```shell
 cd vue-devops
