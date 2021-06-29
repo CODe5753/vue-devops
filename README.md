@@ -4,7 +4,7 @@
 
 npm과 마찬가지로 패키지 매니저입니다. 다만, 빌드 성능이 떨어지는 npm에 비해 성능이 우수합니다.
 
-
+  
 
 ### Yarn 설치
 
@@ -14,7 +14,7 @@ npm이 이미 설치되어 있다면 아래와 같이 yarn을 설치해 줍니�
 npm install --global yarn
 ```
 
-
+  
 
 ### Vue 프로젝트 생성
 
@@ -50,7 +50,7 @@ Vue version은 [3.x] 선택후 엔터
 cd vue-devops
 ```
 
-
+  
 
 이동후 서버를 실행해봅니다.
 
@@ -64,7 +64,7 @@ App running at:에 적혀있는 링크를 누르시고
 
 Welcome to Your Vue.js App 화면을 보셨다면 성공!
 
-
+  
 
 ## Github에 코드 Push 및 Pages에 수동 배포
 
@@ -72,7 +72,7 @@ Git 레포지토리를 생성해 줍니다.
 
 프로젝트명과 동일한 vue-devops로 생성했으며 반드시 **public**이어야 합니다.
 
-
+  
 
 ### remote 설정
 
@@ -82,7 +82,7 @@ Git 레포지토리를 생성해 줍니다.
 git remote add origin GIT링크
 ```
 
-
+  
 
 ### 프로젝트 push
 
@@ -94,7 +94,7 @@ git push origin master
 git push origin main
 ```
 
-
+  
 
 ### 배포 라이브러리 추가
 
@@ -104,7 +104,7 @@ yarn add gh-pages -D
 
 gh는 github을 줄인 말입니다.
 
-
+  
 
 ### package.json 내용 추가
 
@@ -118,7 +118,7 @@ gh는 github을 줄인 말입니다.
 
 packages.json 파일을 열어보면 이미 여러 내용이 적혀있습니다. 그 중 sciprts 영역에 위 세가지를 추가해 줍니다.
 
-
+  
 
 ### 배포용 publicPath 설정
 
@@ -128,12 +128,12 @@ packages.json 파일을 열어보면 이미 여러 내용이 적혀있습니다.
 
 ```js
 module.exports = {
-    publicPath: "vue-devops/",
+    publicPath: "/vue-devops/",
     outputDir: "dist"
 }
 ```
 
-
+  
 
 ### 배포하기
 
@@ -142,3 +142,30 @@ yarn deploy
 ```
 
 해당 명령어를 통해 빌드 된 정적 파일을 원격 저장소의 gh-pages 브랜치를 생성해서 푸시됩니다.
+
+   
+
+### 확인해보기
+
+Github에서 생성했던 레포지토리에 들어가시고 Settings - pages 탭으로 진입하면 URL이 보입니다.
+
+해당 URL을 클릭하여 Vue 페이지가 뜬다면 성공입니다.
+
+
+
+# 직면한 문제
+
+### 빈 페이지만 뜨는 경우
+
+저는 아무런 에러가 없었으나 최종 확인 단계에서 빈 페이지만 뜨는 상황에 직면했습니다.
+
+```js
+module.exports = {
+    publicPath: "/vue-devops/",
+    outputDir: "dist"
+}
+```
+
+알고보니 위 publicPath에서 "**vue-devops/**"로 입력을 했던 것이 문제였습니다..
+
+저와 같은 실수를 하지 않기를 바랍니다!!
