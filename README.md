@@ -74,7 +74,7 @@ Git 레포지토리를 생성해 줍니다.
 
   
 
-### remote 설정
+#### remote 설정
 
 레포지토리 생성이 끝났다면 해당 레포지토리의 링크를 복사하여 아래와 같이 입력해 줍니다.
 
@@ -84,7 +84,7 @@ git remote add origin GIT링크
 
   
 
-### 프로젝트 push
+#### 프로젝트 push
 
 master와 main은 설정에 따라 다릅니다. 저는 master로 설정이 되어있어 master를 입력했습니다.
 
@@ -96,7 +96,7 @@ git push origin main
 
   
 
-### 배포 라이브러리 추가
+#### 배포 라이브러리 추가
 
 ```shell
 yarn add gh-pages -D
@@ -106,7 +106,7 @@ gh는 github을 줄인 말입니다.
 
   
 
-### package.json 내용 추가
+#### package.json 내용 추가
 
 ```json
 "scripts":{
@@ -120,7 +120,7 @@ packages.json 파일을 열어보면 이미 여러 내용이 적혀있습니다.
 
   
 
-### 배포용 publicPath 설정
+#### 배포용 publicPath 설정
 
 해당 설정이 있어야 github에서 호스팅하는 페이지를 열람할 수 있습니다.
 
@@ -135,7 +135,7 @@ module.exports = {
 
   
 
-### 배포하기
+#### 배포하기
 
 ```shell
 yarn deploy
@@ -145,7 +145,7 @@ yarn deploy
 
    
 
-### 확인해보기
+#### 확인해보기
 
 Github에서 생성했던 레포지토리에 들어가시고 Settings - pages 탭으로 진입하면 URL이 보입니다.
 
@@ -153,9 +153,7 @@ Github에서 생성했던 레포지토리에 들어가시고 Settings - pages �
 
 
 
-# 직면한 문제
-
-### 빈 페이지만 뜨는 경우
+#### 빈 페이지만 뜨는 경우
 
 저는 아무런 에러가 없었으나 최종 확인 단계에서 빈 페이지만 뜨는 상황에 직면했습니다.
 
@@ -169,3 +167,95 @@ module.exports = {
 알고보니 위 publicPath에서 "**vue-devops/**"로 입력을 했던 것이 문제였습니다..
 
 저와 같은 실수를 하지 않기를 바랍니다!!
+
+
+
+# 배포 자동화
+
+Github Actions workflow를 이용해 배포 자동화를 해보겠습니다.
+
+쉽게 말해 개발자가 Push/Pull Request와 같은 이벤트에 반응하여 트리거하도록 액션을 구성할 수 있습니다.
+
+#### workflow 생성
+
+Github Actions 메뉴에 들어가신후 **Set up this workflow**를 클릭하여 작성한 후 커밋합니다.
+
+workflows 폴더에 .yml 파일이 생성된 것을 볼 수 있습니다.
+
+  
+
+#### workflow 동작 확인
+
+다시 Actions 메뉴로 들어가 1개의 workflow가 build 되었는지 확인할 수 있습니다.
+
+  
+
+#### App.vue 수정
+
+자동화 확인을 위해 Welcome to 부분을 수정해 봅시다. Your ~ 를 본인의 이름을 넣어봅니다.
+
+저는 "Welcome to 강승현 App"으로 수정해줬습니다.
+
+
+
+#### workflow PULL
+
+workflow를 통해 생성된 yml 파일을 수정해야 하므로 pull을 통해 yml 파일을 가져옵니다.
+
+```shell
+git pull origin master
+또는
+git pull origin main
+```
+
+이후 .github/workflows 폴더 내에 .yml 파일이 pull 된 것을 볼 수 있습니다.
+
+
+
+#### .yml파일 수정
+
+```yaml
+deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@master
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@master
+      with:
+        node-version: 14.x
+    
+    - name: Install dependencies
+      run: yarn install
+    
+    - name: Build page
+      run: yarn build
+      env:
+        NODE_ENV: production
+    
+    - name: Deploy to gh-pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./dist
+```
+
+저희는 jobs 내에 위의 내용을 추가합니다.
+
+이후 해당 파일을 commit&push 해줍니다.
+
+
+
+```shell
+git add .
+git commit -m "커밋 메세지"
+git push origin master 또는 main
+```
+
+
+
+그런 다음 해당 workflow가 제대로 작동되는지 확인해줍니다.
+
+시간이 좀 소요되니 1분정도 여유를 가지시면 됩니다.
+
