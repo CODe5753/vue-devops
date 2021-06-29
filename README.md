@@ -280,7 +280,7 @@ git push origin master 또는 main
 
 #### 테스트 실패 유도
 
-실패를 일으키는 방법엔 여러가지가 있지만 HelloWorld.vue에 h1 태그를 건들여 보겠습니다.
+실패를 일으키는 방법엔 여러가지가 있지만 HelloWorld.vue에 h1 태그를 건드려 보겠습니다.
 
 주어진 msg props를 사용하지 않고 다른 텍스트로 수정하여 props 에러를 유발해 봅시다.
 
